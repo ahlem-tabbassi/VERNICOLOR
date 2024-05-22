@@ -3,6 +3,7 @@ const User = require("../models/user");
 const Notification = require("../models/notification");
 const multer = require("multer");
 const path = require("path");
+const sendNotification = require('../utils/Notification');
 const { getIo } = require("../SocketIo");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -69,10 +70,13 @@ const certificateController = {
                 await adminAndEmployeeNotification.save();
               })
             );
+  
+            // Send email notification to admin and employee
+            const emailMessage = `A new certificate has been added by ${SupplierName}.`;
+            await sendNotification(adminAndEmployeeUsers.map(user => user.email), 'New Certificate Added', emailMessage, 'certificate');
           } else {
-          
             notificationMessage = `You have a new certificate: ${CertificateName}`;
-
+  
             console.log(
               `Admin or employee added a certificate. Sending notification to supplier: ${supplier.groupName}`
             );
@@ -83,6 +87,10 @@ const certificateController = {
               type: "certificate",
             });
             await supplierNotification.save();
+  
+            // Send email notification to the supplier
+            const emailMessage = `You have a new certificate: ${CertificateName}.`;
+            await sendNotification(supplier.email, 'New Certificate Added', emailMessage, 'certificate');
           }
 
           const newCertificate = new Certificate({

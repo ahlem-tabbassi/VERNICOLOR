@@ -68,7 +68,15 @@ exports. createEvaluation = async (req, res) => {
       type: 'evaluation',
     });
     await notification.save();
-
+ // Send email notification to the supplier
+ const emailMessage = `You have a new evaluation. Please check your account for details.`;
+ console.log('Attempting to send email to:', supplier.email); // Debug statement
+ try {
+   await sendNotification(supplier.email, 'New Evaluation Added', emailMessage, 'evaluation');
+   console.log('Email sent successfully to:', supplier.email); // Debug statement
+ } catch (emailError) {
+   console.error('Error sending email to:', supplier.email, emailError); // Debug statement
+ }
  
     const io = getIo();
     io.emit("newEvaluation", { userRole: supplier.role, supplierId: supplier._id });

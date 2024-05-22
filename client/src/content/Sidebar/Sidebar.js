@@ -42,9 +42,9 @@ const Sidebar = (props) => {
   };
   const handleActiveLink = (path) => {
     if (location.pathname === path) {
-      return { fontWeight: "bold", color: "black" }; // Bold and black for active link
+      return { fontWeight: "bold", color: "black" }; 
     }
-    return { color: "black" }; // Just black for inactive links
+    return { color: "black" }; 
   };
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -244,7 +244,7 @@ const Sidebar = (props) => {
                   }
                   tag={Link}
                   className="nav-link"
-                  style={handleActiveLink("/admin/dashboard")} // Apply styles based on active link
+                  style={handleActiveLink("/admin/dashboard")} 
                 >
                   <i
                     className="fa fa-line-chart text-primary"

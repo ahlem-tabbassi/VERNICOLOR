@@ -551,9 +551,9 @@ const AdminDashboard = (props) => {
                 <Table className="align-items-center table-flush" responsive>
                   <thead className="thead-light">
                     <tr>
-                      <th scope="col">Supplier</th>
-                      <th scope="col">Certificate Name</th>
-                      <th scope="col">Expiration</th>
+                      <th scope="col" style={{ fontWeight: "bold" }}>Supplier</th>
+                      <th scope="col" style={{ fontWeight: "bold" }}>Certificate Name</th>
+                      <th scope="col"style={{ fontWeight: "bold" }}>Expiration</th>
                     </tr>
                   </thead>
                   <tbody>

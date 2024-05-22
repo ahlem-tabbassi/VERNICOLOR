@@ -18,19 +18,26 @@ import SupplierDashboard from "./components/SuppliersList/Dashboard";
 import ChatPage from "./components/Messages/ChatPage";
 
 
-import Dashadmin from "./components/Admin/Dashadmin"
-
+//import Dashadmin from "./components/Admin/Dashadmin"
+import Dashboard from "./components/Admin/Dashboard"
 const routes = (user) => [
-
+/*
   {
     path: "/admin/dashboard",
-    element: <Dashadmin />,
+    element: <Dashadmin/>,
     allowedRoles: ["admin", "employee"],
     exact: true,
     
   },
+  */
 
-
+  {
+    path: "/admin/dashboard",
+    element: <Dashboard/>,
+    allowedRoles: ["admin", "employee"],
+    exact: true,
+    
+  },
 
   {
     path: "/supplier/dashboard",

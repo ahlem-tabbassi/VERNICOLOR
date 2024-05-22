@@ -81,8 +81,8 @@ const SupplierDashboard = () => {
           });
           return acc;
         }, {});
-        console.log("evaluationData.labels:", evaluationData.labels); 
-        console.log("Current month:", format(new Date(), "MMM")); 
+        console.log("evaluationData.labels:", evaluationData.labels);
+        console.log("Current month:", format(new Date(), "MMM"));
 
         const allMonthsLabels = Array.from({ length: 12 }, (_, index) =>
           format(new Date(0, index), "MMM")
@@ -196,7 +196,6 @@ const SupplierDashboard = () => {
             ? currentMonthEvaluations[0].PaymentTerm
             : "";
 
-      
         setQualityNote(qualityNote);
         setLogisticNote(logisticNote);
         setBillingErrorNote(billingErrorNote);
@@ -266,7 +265,6 @@ const SupplierDashboard = () => {
     }
   };
   useEffect(() => {
-   
     if (user && user.id) {
       fetchProtocolStatusData(user.id);
     }
@@ -288,13 +286,11 @@ const SupplierDashboard = () => {
         }
       );
 
-   
       const statusCounts = response.data.reduce((counts, protocol) => {
         counts[protocol.status] = (counts[protocol.status] || 0) + 1;
         return counts;
       }, {});
 
-    
       setProtocolStatusData({
         valid: statusCounts["validated"] || 0,
         invalid: statusCounts["invalid"] || 0,
@@ -371,12 +367,9 @@ const SupplierDashboard = () => {
       },
     },
   };
-  
 
   return (
     <>
-      <br />
-      <br />
       <Container
         className="mt--8"
         fluid
@@ -393,9 +386,11 @@ const SupplierDashboard = () => {
                     <Col lg="6" xl="2" className="ml-auto">
                       <Card
                         className="card-stats mb-4 mb-xl-0"
-                        style={{ backgroundColor: "#0d73e1", boxShadow:"0px 5px 4px rgba(0, 0, 0, 0.5)" }}
+                        style={{
+                          backgroundColor: "#0d73e1",
+                          boxShadow: "0px 5px 4px rgba(0, 0, 0, 0.5)",
+                        }}
                       >
-                        
                         <CardBody>
                           <Row>
                             <div className="col">
@@ -430,7 +425,10 @@ const SupplierDashboard = () => {
                     <Col lg="6" xl="2" className="ml-6">
                       <Card
                         className="card-stats mb-4 mb-xl-0"
-                        style={{ backgroundColor: "#0d73e1", boxShadow:"0px 5px 4px rgba(0, 0, 0, 0.5)" }}
+                        style={{
+                          backgroundColor: "#0d73e1",
+                          boxShadow: "0px 5px 4px rgba(0, 0, 0, 0.5)",
+                        }}
                       >
                         <CardBody>
                           <Row>
@@ -463,7 +461,10 @@ const SupplierDashboard = () => {
                     <Col lg="6" xl="2" className="ml-6">
                       <Card
                         className="card-stats mb-4 mb-xl-0"
-                        style={{ backgroundColor: "#0d73e1" , boxShadow:"0px 5px 4px rgba(0, 0, 0, 0.5)"}}
+                        style={{
+                          backgroundColor: "#0d73e1",
+                          boxShadow: "0px 5px 4px rgba(0, 0, 0, 0.5)",
+                        }}
                       >
                         <CardBody>
                           <Row>
@@ -496,7 +497,10 @@ const SupplierDashboard = () => {
                     <Col lg="6" xl="2" className="ml-6">
                       <Card
                         className="card-stats mb-4 mb-xl-0"
-                        style={{ backgroundColor: "#0d73e1" , boxShadow:"0px 5px 4px rgba(0, 0, 0, 0.5)"}}
+                        style={{
+                          backgroundColor: "#0d73e1",
+                          boxShadow: "0px 5px 4px rgba(0, 0, 0, 0.5)",
+                        }}
                       >
                         <CardBody>
                           <Row>
@@ -539,21 +543,20 @@ const SupplierDashboard = () => {
           </Row>
         </div>
 
-        <Row className="mt-7">
-          <Col className="mb-5 mb-xl-0 offset-xl-2" xl="7">
-            <Card className="shadow" >
-            <CardHeader
+        <Row className="mt-5">
+          <Col className="mb-5 mb-xl-0 offset-xl-2" xl="5">
+            <Card className="shadow">
+              <CardHeader
                 className="bg-transparent"
                 style={{ boxShadow: "0px 5px 4px rgba(0, 0, 0, 0.15)" }}
               >
                 <Row className="align-items-center">
-                <h6 className="text-uppercase text-muted ls-1 mb-1">
-                  Evaluations
-                </h6>
-                  
+                  <h6 className="text-uppercase text-muted ls-1 mb-1">
+                    Evaluations
+                  </h6>
                 </Row>
               </CardHeader>
-              <CardBody style={{ boxShadow:"0px 5px 4px rgba(0, 0, 0, 0.5)"}}>
+              <CardBody style={{ boxShadow: "0px 5px 4px rgba(0, 0, 0, 0.5)" }}>
                 {loading ? (
                   <p>Loading...</p>
                 ) : (
@@ -575,7 +578,7 @@ const SupplierDashboard = () => {
                             },
                             grid: {
                               display: true,
-                              color: "black", 
+                              color: "black",
                             },
                             scaleLabel: {
                               display: true,
@@ -620,7 +623,29 @@ const SupplierDashboard = () => {
               </CardBody>
             </Card>
           </Col>
-          <Col xl="3">
+          <Col className="mb-5 mb-xl-0" xl="5">
+            <Card className="shadow">
+              <CardHeader
+                className="bg-transparent"
+                style={{ boxShadow: "0px 5px 4px rgba(0, 0, 0, 0.15)" }}
+              >
+                <Row className="align-items-center">
+                  <h6 className="text-uppercase text-muted ls-1 mb-1">
+                    Protocols
+                  </h6>
+                </Row>
+              </CardHeader>
+
+              <CardBody style={{ boxShadow: "0px 5px 4px rgba(0, 0, 0, 0.5)", height: "450px" }}>
+                <div className="chart">
+                  <Bar data={chartExample4} options={chartOptions} />
+                </div>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+        <Row className="mt-5">
+          <Col className="mb-5 mb-xl-0 offset-xl-2" xl="9">
             <Card className="shadow">
               <CardHeader
                 className="bg-transparent"
@@ -663,9 +688,9 @@ const SupplierDashboard = () => {
                               certificate.DaysUntilExpiration <= 0 // Expired or less than 0 days
                                 ? 100
                                 : certificate.DaysUntilExpiration > 90 // More than 90 days
-                                ? 30 
+                                ? 30
                                 : certificate.DaysUntilExpiration <= 60 // Less than or equal to 60 days
-                                ? 50 
+                                ? 50
                                 : 70
                             }
                             color={getCertificateProgressColor(
@@ -681,29 +706,9 @@ const SupplierDashboard = () => {
             </Card>
           </Col>
         </Row>
-        <Row className="mt-5">
-          <Col className="mb-5 mb-xl-0 offset-xl-2" xl="7">
-            <Card className="shadow">
-            <CardHeader
-                className="bg-transparent"
-                style={{ boxShadow: "0px 5px 4px rgba(0, 0, 0, 0.15)" }}
-              >
-                <Row className="align-items-center">
-                <h6 className="text-uppercase text-muted ls-1 mb-1">
-                  Protocols
-                </h6>
-                  
-                </Row>
-              </CardHeader>
-              
-              <CardBody style={{ boxShadow:"0px 5px 4px rgba(0, 0, 0, 0.5)"}}>
-                <div className="chart">
-                  <Bar data={chartExample4} options={chartOptions} />
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+        <Col>
+          <br></br>
+        </Col>
       </Container>
     </>
   );

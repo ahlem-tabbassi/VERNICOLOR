@@ -223,7 +223,7 @@ function EditProfile() {
           </div>
         </div>
 
-        <Container className="mt--8 pb-5">
+        <Container className="pb-5" style={{ marginTop: "-250px" }}>
           <Row className="justify-content-center">
             <Col sm="10" md="8">
               <Card className="bg-secondary shadow border-0">
@@ -418,6 +418,9 @@ function EditProfile() {
                                     required
                                   />
                                 </FormGroup>
+                              </Col>
+                          
+                              <Col sm="4">
                                 <FormGroup>
                                   <label htmlFor="input-newPassword">
                                     New Password
@@ -433,6 +436,8 @@ function EditProfile() {
                                     required
                                   />
                                 </FormGroup>
+                              </Col>
+                              <Col sm="4">
                                 <FormGroup>
                                   <label htmlFor="input-confirmPassword">
                                     Confirm Password
@@ -453,7 +458,7 @@ function EditProfile() {
                           )}
                           {user.role === "supplier" && (
                             <>
-                              <Col sm="4">
+                              <Col sm="3">
                                 <FormGroup>
                                   <label htmlFor="input-groupName">
                                     Group Name
@@ -470,7 +475,7 @@ function EditProfile() {
                                   />
                                 </FormGroup>
                               </Col>
-                              <Col sm="4">
+                              <Col sm="3">
                                 <FormGroup>
                                   <label htmlFor="input-codeTVA">
                                     Code TVA
@@ -487,7 +492,7 @@ function EditProfile() {
                                   />
                                 </FormGroup>
                               </Col>
-                              <Col sm="4">
+                              <Col sm="3">
                                 <FormGroup>
                                   <label htmlFor="input-province">
                                     Province
@@ -504,7 +509,7 @@ function EditProfile() {
                                   />
                                 </FormGroup>
                               </Col>
-                              <Col sm="4">
+                              <Col sm="3">
                                 <FormGroup>
                                   <label htmlFor="input-street">Street</label>
                                   <Input
@@ -517,7 +522,7 @@ function EditProfile() {
                                   />
                                 </FormGroup>
                               </Col>
-                              <Col sm="4">
+                              <Col sm="3">
                                 <FormGroup>
                                   <label htmlFor="input-codeUser">
                                     Code User
@@ -534,7 +539,7 @@ function EditProfile() {
                                   />
                                 </FormGroup>
                               </Col>
-                              <Col sm="4">
+                              <Col sm="3">
                                 <FormGroup>
                                   <label htmlFor="input-codeDUNS">
                                     Code DUNS
@@ -551,7 +556,7 @@ function EditProfile() {
                                   />
                                 </FormGroup>
                               </Col>
-                              <Col sm="4">
+                              <Col sm="3">
                                 <FormGroup>
                                   <label htmlFor="input-phone">
                                     Phone
@@ -568,7 +573,7 @@ function EditProfile() {
                                   />
                                 </FormGroup>
                               </Col>
-                              <Col sm="4">
+                              <Col sm="3">
                                 <FormGroup>
                                   <label htmlFor="input-fax">Fax</label>
                                   <Input
@@ -581,7 +586,7 @@ function EditProfile() {
                                   />
                                 </FormGroup>
                               </Col>
-                              <Col sm="4">
+                              <Col sm="3">
                                 <FormGroup>
                                   <label htmlFor="input-address">
                                     address
@@ -598,7 +603,7 @@ function EditProfile() {
                                   />
                                 </FormGroup>
                               </Col>
-                              <Col sm="4">
+                              <Col sm="3">
                                 <FormGroup>
                                   <label htmlFor="input-zipCode">
                                     Code ZIP

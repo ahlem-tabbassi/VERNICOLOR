@@ -241,7 +241,7 @@ const Notification = ({
                   )
                 }
                 style={{
-                  backgroundColor: "#B0E0E6",
+                  backgroundColor: "white",
                   cursor: "pointer",
                   borderRadius: "30px",
                   marginBottom: "10px",

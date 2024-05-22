@@ -283,23 +283,31 @@ const SupplierDetails = ({
   };
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} size="xl">
+    <Modal isOpen={isOpen} toggle={toggle} size="lg">
       <ModalHeader toggle={toggle}>
         {showEvaluationDetails ||
         showCertificateDetails ||
         showProtocolDetails ? (
           <Button
-            onClick={() => {
-              showEvaluationDetails
-                ? toggleEvaluationDetails()
-                : showCertificateDetails
-                ? toggleCertificateDetails()
-                : toggleProtocolDetails();
-            }}
-            className="back-button"
-          >
-            &#8592; Back
-          </Button>
+          onClick={() => {
+            showEvaluationDetails
+              ? toggleEvaluationDetails()
+              : showCertificateDetails
+              ? toggleCertificateDetails()
+              : toggleProtocolDetails();
+          }}
+          className="back-button"
+          style={{
+            backgroundColor: '#6495ED',
+            color: 'white',
+            padding: '5px 10px',
+            fontSize: '12px',  
+            width: 'auto'   
+          }}
+        >
+          &#8592;
+        </Button>
+        
         ) : (
           "Supplier Details"
         )}
