@@ -77,7 +77,7 @@ const Evaluations = () => {
         }
 
        
-        console.log("Filtered Evaluations:", filteredEvaluations);
+      
 
       
         if (userRole === "supplier" && userId) {

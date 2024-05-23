@@ -59,6 +59,7 @@ const certificateController = {
             const notificationData = {
               message: notificationMessage,
               type: "certificate",
+              read: false,
             };
             await Promise.all(
               adminAndEmployeeUsers.map(async (user) => {
@@ -85,6 +86,7 @@ const certificateController = {
               userId: supplier._id,
               message: notificationMessage,
               type: "certificate",
+              read: false,
             });
             await supplierNotification.save();
   

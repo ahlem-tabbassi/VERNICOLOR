@@ -599,7 +599,7 @@ const ChatPage = ({ isOpen, onClose, onSelectChat }) => {
               <Box display="flex" alignItems="center" px={2} mt={2}>
                 <Input
                   fullWidth
-                  placeholder="Search by name or email"
+                  placeholder="Search by name"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />

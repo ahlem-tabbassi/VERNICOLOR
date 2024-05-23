@@ -42,6 +42,29 @@ const Notification = ({
     };
   }, [socket, user, setUnreadNotifications]);
 
+
+
+  useEffect(() => {
+    const handleEvaluationCheck = () => {
+      console.log("New evaluation check received");
+
+      if (user.role === "admin" || user.role === "employee") {
+        console.log("User role is admin or employee");
+        setUnreadNotifications((prevCount) => prevCount + 1);
+      } else {
+        console.log("User role is not admin or employee");
+      }
+    };
+
+    socket.on("Evaluation check", handleEvaluationCheck);
+
+    return () => {
+      socket.off("Evaluation check", handleEvaluationCheck);
+    };
+  }, [socket, user, setUnreadNotifications]);
+
+
+
   useEffect(() => {
     const handleNewProtocolStatus = (notificationMessage) => {
       //console.log("New protocol status received:", notificationMessage);
@@ -83,7 +106,7 @@ const Notification = ({
 
       if (userRole === "admin" || userRole === "employee") {
         if (supplierId === user.id) {
-         // console.log("Incrementing unread notifications");
+
           setUnreadNotifications((prevCount) => prevCount + 1);
         }
       } else if (userRole === "supplier" && userRole !== user.role) {
@@ -99,7 +122,7 @@ const Notification = ({
   }, [socket, user, setUnreadNotifications]);
 
   useEffect(() => {
-    //console.log("Notifications:", notifications);
+
   }, [notifications]);
 
   useEffect(() => {
@@ -126,9 +149,12 @@ const Notification = ({
           },
         }
       );
-
+  
       if (response.data && response.data.notifications) {
-        setNotifications(response.data.notifications.reverse());
+        const fetchedNotifications = response.data.notifications.reverse();
+        const initializedReadNotifications = fetchedNotifications.map(notification => notification.read);
+        setReadNotifications(initializedReadNotifications);
+        setNotifications(fetchedNotifications);
       } else {
         console.error("Invalid response format:", response.data);
       }
@@ -136,26 +162,45 @@ const Notification = ({
       console.error("Error fetching notifications:", error);
     }
   };
+  
 
-  const handleNotificationClick = (notificationId, notificationType, index) => {
-    switch (notificationType) {
-      case "evaluation":
-        navigate("/admin/evaluations");
-        break;
-      case "certificate":
-        navigate("/admin/certificates");
-        break;
-      case "protocol":
-        navigate("/Protocol");
-        break;
-      default:
-        break;
+  const handleNotificationClick = async (notificationId, notificationType, index) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        `http://localhost:8000/api/notifications/${notificationId}`,
+        { read: true },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+     
+      const updatedReadNotifications = [...readNotifications];
+      updatedReadNotifications[index] = true;
+      setReadNotifications(updatedReadNotifications);
+  
+      switch (notificationType) {
+        case "evaluation":
+          navigate("/admin/evaluations");
+          break;
+        case "certificate":
+          navigate("/admin/certificates");
+          break;
+        case "protocol":
+          navigate("/Protocol");
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+      console.error("Error updating notification status:", error);
     }
-
-    const updatedReadNotifications = [...readNotifications];
-    updatedReadNotifications[index] = true;
-    setReadNotifications(updatedReadNotifications);
   };
+  
+  
   const handleDeleteNotification = async (notificationId) => {
     try {
       const token = localStorage.getItem("token");
@@ -179,6 +224,11 @@ const Notification = ({
     setDeleteMenuAnchorEl(null);
     setDeleteMenuNotificationId(null);
   };
+
+
+  
+
+
 
   return (
     <>
@@ -231,68 +281,68 @@ const Notification = ({
         >
           <ListGroup>
             {notifications.map((notification, index) => (
-              <ListGroupItem
-                key={notification._id}
-                onClick={() =>
-                  handleNotificationClick(
-                    notification._id,
-                    notification.type,
-                    index
-                  )
-                }
-                style={{
-                  backgroundColor: "white",
-                  cursor: "pointer",
-                  borderRadius: "30px",
-                  marginBottom: "10px",
-
-                  color: "black",
-                  transition: "background-color 0.3s",
-                }}
-                className="notification-item"
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = "#D3D3D3";
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = "transparent";
-                }}
-              >
-                
-                {notification.message}
-                <br />
-                <span style={{ fontSize: "0.8em", color: "#555" }}>
-                  {formatDistanceToNow(new Date(notification.timestamp), {
-                    addSuffix: true,
-                  }).replace("about ", "")}
-                </span>
-                <IconButton
-                  onClick={(event) => {
-                    event.stopPropagation(); // Add this line to stop click event propagation
-                    setDeleteMenuAnchorEl(event.currentTarget);
-                    setDeleteMenuNotificationId(notification._id); // Set the notification ID
-                  }}
-                  sx={{ position: "absolute", right: 0, top: 0 }} // Update positioning
-                >
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu
-                  anchorEl={deleteMenuAnchorEl}
-                  open={Boolean(
-                    deleteMenuAnchorEl &&
-                      deleteMenuNotificationId === notification._id
-                  )}
-                  onClose={() => {
-                    setDeleteMenuAnchorEl(null);
-                    setDeleteMenuNotificationId(null);
-                  }}
-                >
-                  <MenuItem
-                    onClick={() => handleDeleteNotification(notification._id)}
-                  >
-                    <DeleteIcon sx={{ mr: 0.5 }} fontSize="small" /> Delete Notification
-                  </MenuItem>
-                </Menu>
-              </ListGroupItem>
+             <ListGroupItem
+             key={notification._id}
+             onClick={() =>
+               handleNotificationClick(
+                 notification._id,
+                 notification.type,
+                 index
+               )
+             }
+             style={{
+               backgroundColor: readNotifications[index] ? "white" : "#808080",
+               cursor: "pointer",
+               borderRadius: "30px",
+               marginBottom: "10px",
+               color: "black",
+               transition: "background-color 0.3s",
+               fontWeight: readNotifications[index] ? "normal" : "bold",
+             }}
+             className="notification-item"
+             onMouseEnter={(e) => {
+               e.target.style.backgroundColor = "#D3D3D3";
+             }}
+             onMouseLeave={(e) => {
+               e.target.style.backgroundColor = readNotifications[index] ? "white" : "#808080";
+             }}
+           >
+             {notification.message}
+             <br />
+             <span style={{ fontSize: "0.8em", color: "#555" }}>
+               {formatDistanceToNow(new Date(notification.timestamp), {
+                 addSuffix: true,
+               }).replace("about ", "")}
+             </span>
+             <IconButton
+               onClick={(event) => {
+                 event.stopPropagation();
+                 setDeleteMenuAnchorEl(event.currentTarget);
+                 setDeleteMenuNotificationId(notification._id); 
+               }}
+               sx={{ position: "absolute", right: 0, top: 0 }} 
+             >
+               <MoreVertIcon />
+             </IconButton>
+             <Menu
+               anchorEl={deleteMenuAnchorEl}
+               open={Boolean(
+                 deleteMenuAnchorEl &&
+                   deleteMenuNotificationId === notification._id
+               )}
+               onClose={() => {
+                 setDeleteMenuAnchorEl(null);
+                 setDeleteMenuNotificationId(null);
+               }}
+             >
+               <MenuItem
+                 onClick={() => handleDeleteNotification(notification._id)}
+               >
+                 <DeleteIcon sx={{ mr: 0.5 }} fontSize="small" /> Delete Notification
+               </MenuItem>
+             </Menu>
+           </ListGroupItem>
+           
             ))}
           </ListGroup>
         </div>

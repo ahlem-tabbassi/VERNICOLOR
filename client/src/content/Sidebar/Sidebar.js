@@ -41,11 +41,13 @@ const Sidebar = (props) => {
     setCollapseOpen(false);
   };
   const handleActiveLink = (path) => {
-    if (location.pathname === path) {
-      return { fontWeight: "bold", color: "black" }; 
-    }
-    return { color: "black" }; 
+    const currentPath = window.location.pathname;
+    return currentPath === path || currentPath === '/supplier/dashboard'
+      ? { fontWeight: 'bold' }
+      : {color: "black"};
   };
+  
+ 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
@@ -244,7 +246,11 @@ const Sidebar = (props) => {
                   }
                   tag={Link}
                   className="nav-link"
-                  style={handleActiveLink("/admin/dashboard")} 
+                  style={
+                    user.role === "supplier"
+                      ? handleActiveLink("/supplier/dashboard")
+                      : handleActiveLink("/admin/dashboard")
+                  }
                 >
                   <i
                     className="fa fa-line-chart text-primary"

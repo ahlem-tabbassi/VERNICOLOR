@@ -63,7 +63,7 @@ const Header = () => {
           return;
         }
 
-        console.log("Fetching user data...");
+     
         const response = await axios.get(
           `http://localhost:8000/profile/fetchUserName/${user.id}`,
           {
@@ -73,7 +73,7 @@ const Header = () => {
           }
         );
 
-        console.log("Response:", response.data);
+        //console.log("Response:", response.data);
         setUserData(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -86,7 +86,7 @@ const Header = () => {
     }
   }, [user, token]);
   useEffect(() => {
-    console.log("Header component mounted");
+  
 
     const storedUnreadNotifications = localStorage.getItem(
       "unreadNotifications"
@@ -119,6 +119,7 @@ const Header = () => {
       setUnreadNotifications(0);
     }
   };
+  
   return (
     <div className="header bg-gradient-white py-0">
       <Notification

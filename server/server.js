@@ -24,6 +24,7 @@ const { authenticateJWT } = require("./middleware/authenticateJWT");
 const chatRoutes = require("./routes/chatRoutes");
 const exportRoutes=require("./routes/exportRoutes")
 const { initSocket } = require("./SocketIo");
+const notificationService = require("./services/notificationService");
 app.use(cors());
 app.use(express.json());
 connectDB();
