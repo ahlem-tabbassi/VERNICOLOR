@@ -15,6 +15,7 @@ router.get('/file/:filename', certificateController.getCertificateFile);
 router.put('/certificates/:id', certificateController.updateCertificateById);
 router.delete('/certificates/:id', certificateController.deleteCertificateById);
 router.get('/certificates/supplier/:id', certificateController.getCertificateBySupplierId);
+
 module.exports = router;
 
 

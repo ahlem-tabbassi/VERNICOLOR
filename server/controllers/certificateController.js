@@ -286,4 +286,3 @@ const certificateController = {
   },
 };
 module.exports = certificateController;
-
