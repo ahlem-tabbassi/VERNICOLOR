@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-// Create a theme object
+
 const theme = createTheme();
 
 ReactDOM.render(

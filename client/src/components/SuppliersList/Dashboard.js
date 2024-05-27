@@ -570,6 +570,9 @@ const SupplierDashboard = () => {
                             display: true,
                             text: "Evaluations",
                           },
+                          legend: {
+                            display: true,
+                          },
                         },
                         scales: {
                           x: {
@@ -636,9 +639,22 @@ const SupplierDashboard = () => {
                 </Row>
               </CardHeader>
 
-              <CardBody style={{ boxShadow: "0px 5px 4px rgba(0, 0, 0, 0.5)", height: "450px" }}>
+              <CardBody
+                style={{
+                  boxShadow: "0px 5px 4px rgba(0, 0, 0, 0.5)",
+                  height: "450px",
+                }}
+              >
                 <div className="chart">
-                  <Bar data={chartExample4} options={chartOptions} />
+                  <Bar
+                    data={chartExample4}
+                    options={{
+                      ...chartOptions,
+                      legend: {
+                        display: false,
+                      },
+                    }}
+                  />
                 </div>
               </CardBody>
             </Card>

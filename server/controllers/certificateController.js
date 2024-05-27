@@ -108,9 +108,9 @@ const certificateController = {
           const savedCertificate = await newCertificate.save();
 
           if (userRole === "admin" || userRole === "employee") {
-            userRole = userRole; // Use the role of the user who added the certificate
+            userRole = userRole; 
           } else {
-            userRole = "supplier"; // Default to "supplier" if neither admin nor employee
+            userRole = "supplier"; 
           }
 
           const notificationData = {

@@ -28,7 +28,7 @@ const Notification = ({
 
   useEffect(() => {
     const handleNewProtocol = ({ supplierName, protocolTitle }) => {
-     // console.log("New protocol received:", protocolTitle);
+    
 
       if (user.role === "admin" || user.role === "employee") {
         setUnreadNotifications((prevCount) => prevCount + 1);
@@ -67,7 +67,7 @@ const Notification = ({
 
   useEffect(() => {
     const handleNewProtocolStatus = (notificationMessage) => {
-      //console.log("New protocol status received:", notificationMessage);
+      
 
       if (user.role === "supplier") {
         setUnreadNotifications((prevCount) => prevCount + 1);

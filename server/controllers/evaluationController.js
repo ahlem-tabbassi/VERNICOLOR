@@ -68,15 +68,33 @@ exports. createEvaluation = async (req, res) => {
       type: 'evaluation',
     });
     await notification.save();
- // Send email notification to the supplier
- const emailMessage = `You have a new evaluation. Please check your account for details.`;
- console.log('Attempting to send email to:', supplier.email); // Debug statement
- try {
-   await sendNotification(supplier.email, 'New Evaluation Added', emailMessage, 'evaluation');
-   console.log('Email sent successfully to:', supplier.email); // Debug statement
- } catch (emailError) {
-   console.error('Error sending email to:', supplier.email, emailError); // Debug statement
- }
+    // Send email notification to the supplier
+    const emailSubject = 'New Evaluation Added';
+    const emailBody = `
+Dear ${supplier.groupName},
+
+We are pleased to inform you that a new evaluation has been added to your account for review. Please log in to your account to access the details.
+
+Evaluation Date: ${parsedEvaluationDate.toDateString()}
+Quality Note: ${QualityNote}
+Logistic Note: ${LogisticNote}
+Billing Error: ${BillingError}
+Payment Term: ${PaymentTerm}
+Score: ${Score}
+
+Thank you for your continued partnership.
+
+Best regards,
+Vernicolor Group Tunisia
+`;
+
+    console.log('Attempting to send email to:', supplier.email);
+    try {
+      await sendNotification(supplier.email, emailSubject, emailBody, 'evaluation');
+      console.log('Email sent successfully to:', supplier.email); 
+    } catch (emailError) {
+      console.error('Error sending email to:', supplier.email, emailError); 
+    }
  
     const io = getIo();
     io.emit("newEvaluation", { userRole: supplier.role, supplierId: supplier._id });

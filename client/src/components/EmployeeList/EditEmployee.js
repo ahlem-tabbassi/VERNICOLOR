@@ -59,7 +59,7 @@ const EditEmployee=({ isOpen, toggle, employee, employeeId, updateEmployeeInList
         }
       );
   
-      const updatedEmployee = response.data.employee; // Extracting employee data
+      const updatedEmployee = response.data.employee; 
     console.log("Updated employee data:", updatedEmployee);
     updateEmployeeInList(updatedEmployee);
     toggle();

@@ -70,7 +70,7 @@ Chart.elements.Rectangle.prototype.draw = function () {
     [right, bottom],
   ];
 
-  // Find first (starting) corner with fallback to 'bottom'
+
   var borders = ["bottom", "left", "top", "right"];
   var startCorner = borders.indexOf(borderSkipped, 0);
   if (startCorner === -1) {
@@ -194,6 +194,7 @@ function chartOptions() {
             borderColor: colors.theme["primary"],
             backgroundColor: colors.transparent,
             borderCapStyle: "rounded",
+            
           },
           rectangle: {
             backgroundColor: colors.theme["warning"],

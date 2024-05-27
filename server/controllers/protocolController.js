@@ -177,14 +177,13 @@ const protocolController = {
         //console.log("Updating Protocol by ID:", req.params.id);
         const { supplierName, status, protocolTitle } = req.body;
         const ProtocolFile = req.file ? req.file.filename : undefined;
-    
         let updatedProtocolData = {
           supplierName,
           status,
           protocolTitle,
           ProtocolFile: ProtocolFile
         };
-    
+        console.log("updated info",updatedProtocolData);
         const updatedProtocol = await Protocol.findByIdAndUpdate(
           req.params.id,
           updatedProtocolData,
@@ -208,7 +207,7 @@ const protocolController = {
           } else {
             notificationMessage = `Your protocol has been marked as invalid.`;
           }
-    
+          console.log('Protocol Title:', protocolTitle); 
       
       
           const io = getIo();
@@ -221,8 +220,26 @@ const protocolController = {
             type: 'protocol'
           });
           await notification.save();
-    
-          await sendNotification(supplier.email, status === 'validated' ? 'Protocol Validated' : 'Protocol Invalidated', notificationMessage, 'protocol');
+          console.log('Protocol Title:', protocolTitle); 
+          await sendNotification(
+            supplier.email, 
+            status === 'validated' ? 'Protocol Validated' : 'Protocol Invalidated', 
+            `
+          Dear ${supplier.groupName},
+          
+          We would like to inform you that your protocol has been ${status === 'validated' ? 'validated' : 'marked as invalid'}.
+          
+          Status: ${status.toUpperCase()}
+          Please log in to your account to access the details.
+        
+          
+          Best regards,
+          Vernicolor Group Tunisia
+          `,
+            'protocol'
+          );
+          
+          
         }
     
         res.json({ message: 'Protocol updated successfully', protocol: updatedProtocol });
@@ -275,13 +292,3 @@ const protocolController = {
 };
 
 module.exports = protocolController;
-/*    getProtocolsBySupplierId: async (req, res) => {
-      try {
-        const { id } = req.params;
-        const protocols = await Protocol.find({ supplierId: id });
-        res.json(protocols);
-      } catch (error) {
-        console.error("Error fetching protocols for supplier:", error);
-        res.status(500).json({ message: "Server Error" });
-      }
-    },*/

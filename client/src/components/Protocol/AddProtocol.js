@@ -22,8 +22,10 @@ const AddProtocol = ({ isOpen, toggle , updateProtocolsList}) => {
   const [formData, setFormData] = useState({
     supplierName: "",
     status: "is being validated",
+    protocolTitle: "", 
     file: null,
   });
+  
   const [currentUser, setCurrentUser] = useState(null);
   const [protocols, setProtocols] = useState([]);
   useEffect(() => {

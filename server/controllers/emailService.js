@@ -4,11 +4,18 @@ const nodemailer = require("nodemailer");
 const sendEmail = async (email, password) => {
   
   let transporter = nodemailer.createTransport({
-    service: "Gmail",
+    host: "smtp-mail.outlook.com",
+    port: 587,
+    secure: false, 
     auth: {
-      user: process.env.EMAIL_USER, 
+      user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD,
     },
+    tls: {
+      rejectUnauthorized: false, 
+    },
+    debug: true, 
+    logger: true
   });
 
 

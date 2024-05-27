@@ -40,7 +40,7 @@ const AdminDashboard = (props) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setTopSuppliers(response.data); // Assuming response.data contains an array of objects with SupplierName and avgScore properties
+        setTopSuppliers(response.data); 
       } catch (error) {
         console.error("Error fetching top suppliers:", error);
       }
@@ -413,27 +413,27 @@ const AdminDashboard = (props) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        responseType: "blob", // Set response type to blob for file download
+        responseType: "blob",
       });
 
-      // Create a Blob object from the response data
+ 
       const blob = new Blob([response.data], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
 
-      // Create a temporary URL for the Blob
+    
       const url = window.URL.createObjectURL(blob);
 
-      // Create a temporary <a> element to trigger the download
+      
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", "data.xlsx"); // Set the download attribute with desired file name
+      link.setAttribute("download", "data.xlsx"); 
       document.body.appendChild(link);
 
-      // Trigger the click event on the link
+    
       link.click();
 
-      // Cleanup: remove the temporary link and revoke the temporary URL
+   
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
@@ -710,7 +710,7 @@ const AdminDashboard = (props) => {
                       <tr key={index}>
                         <td>{supplier.groupName}</td>
                         {generateColumnHeaders().map((date, index) => {
-                          const monthIndex = index + 1; // Month index starts from 1
+                          const monthIndex = index + 1; 
                           const year = startYear + currentPage;
                           const monthHasEvaluation = evaluations.some(
                             (evaluation) => {

@@ -121,7 +121,7 @@ const AddCertificate = ({ isOpen, toggle, updateCertificatesList  }) => {
 
       setShowSuccess(true);
       setFormData({
-        ...formData, // Keep the SupplierName
+        ...formData, 
         ExpireDate: "",
         RecertificateDate: "",
         CertificateNumber: "",
@@ -130,7 +130,7 @@ const AddCertificate = ({ isOpen, toggle, updateCertificatesList  }) => {
       });
       updateCertificatesList();
 
-      // Hide the success message after 3 seconds
+     
       setTimeout(() => {
         setShowSuccess(false);
       }, 3000);

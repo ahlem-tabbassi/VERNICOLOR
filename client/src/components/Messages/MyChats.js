@@ -171,7 +171,7 @@ const MyChats = ({ onSelectChat}) => {
                 <IconButton
                   onClick={(event) => {
                     setDeleteMenuOpen(event.currentTarget);
-                    setDeleteMenuChatId(chat._id); // Set the chat ID
+                    setDeleteMenuChatId(chat._id); 
                   }}
                   sx={{ marginLeft: "350px", marginTop: "-50px" }}
                 >
