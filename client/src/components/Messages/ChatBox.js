@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import ScrollableFeed from "react-scrollable-feed";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import { useLocation } from "react-router-dom";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import {
   Box,
@@ -19,7 +20,7 @@ const ChatBox = ({ selectedChat, onNewMessage, selectedUserName }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-
+  const location = useLocation();
   const [unreadMessages, setUnreadMessages] = useState(0);
   const ENDPOINT = "http://localhost:8000";
   const [socket, setSocket] = useState(null);
@@ -28,38 +29,47 @@ const ChatBox = ({ selectedChat, onNewMessage, selectedUserName }) => {
   const [lastMessageIndex, setLastMessageIndex] = useState(null);
 
   useEffect(() => {
-    fetchMessages();
-  }, [selectedChat]);
+    if (location.pathname === "/Messages") {
+      fetchMessages();
+    }
+  }, [selectedChat, location.pathname]);
 
   useEffect(() => {
-    const newSocket = io(ENDPOINT);
-    newSocket.emit("setup", user.id);
+    if (location.pathname === "/Messages") {
+      console.log("Initializing Socket.IO connection...");
+      const newSocket = io(ENDPOINT);
+      newSocket.emit("setup", user.id);
+  
+      newSocket.on("connected", () => {
+        console.log("Connected to socket.io");
+      });
+      newSocket.on("message received", handleNewMessage);
+  
+      newSocket.on("typing", () => {
+        console.log("Someone is typing...");
+        setIsTyping(true);
+      });
+  
+      newSocket.on("stop typing", () => {
+        console.log("No one is typing...");
+        setIsTyping(false);
+      });
+  
+      setSocket(newSocket);
+  
+      return () => {
+        console.log("Disconnecting Socket.IO connection...");
+        newSocket.disconnect();
+      };
+    } else {
+      console.log("Not on /Messages page. Socket.IO connection not initialized.");
+    }
+  }, [user.id, location.pathname]);
+  
 
-    newSocket.on("connected", () => {
-      console.log("Connected to socket.io");
-    });
-    newSocket.on("message received", handleNewMessage);
+ 
 
-    //console.log("New socket created:", newSocket);
-
-    newSocket.on("typing", () => {
-      setIsTyping(true);
-    });
-
-    newSocket.on("stop typing", () => {
-      setIsTyping(false);
-    });
-
-    setSocket(newSocket);
-
-    return () => {
-      newSocket.disconnect();
-    };
-  }, [user.id]);
-
-  useEffect(() => {}, [isTyping]);
-
-  useEffect(() => {}, [loading]);
+ 
 
   useEffect(() => {
     if (isLoading) {

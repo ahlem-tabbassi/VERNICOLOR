@@ -40,6 +40,7 @@ const AddEvaluation = ({ isOpen, toggle, updateEvaluationsList }) => {
 
   const [suppliers, setSuppliers] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   useEffect(() => {
     const fetchSuppliers = async () => {
@@ -117,6 +118,7 @@ const AddEvaluation = ({ isOpen, toggle, updateEvaluationsList }) => {
     e.preventDefault();
   
     try {
+      setLoading(true);
       const token = localStorage.getItem('token');
       if (!token) {
         console.error('Authentication token missing');
@@ -161,6 +163,8 @@ const AddEvaluation = ({ isOpen, toggle, updateEvaluationsList }) => {
       }
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setLoading(false);
     }
   };
   
@@ -303,8 +307,8 @@ const AddEvaluation = ({ isOpen, toggle, updateEvaluationsList }) => {
                       </FormGroup>
                     </Col>
                   </Row>
-                  <Button type="submit" className="btn btn-primary">
-                    Submit
+                  <Button type="submit" className="btn btn-primary" disabled={loading}>
+                    {loading ? "Submitting..." : "Submit"}
                   </Button>
                 </Form>
               </CardBody>

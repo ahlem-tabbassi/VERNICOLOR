@@ -279,7 +279,12 @@ const Notification = ({
             borderRadius: "10px",
           }}
         >
-          <ListGroup>
+          {notifications.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "20px" }}>
+              No Notifications
+            </div>
+          ) : (
+            <ListGroup>
             {notifications.map((notification, index) => (
              <ListGroupItem
              key={notification._id}
@@ -343,11 +348,12 @@ const Notification = ({
              </Menu>
            </ListGroupItem>
            
-            ))}
+          ))}
           </ListGroup>
-        </div>
+        )}
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 };
 export default Notification;
