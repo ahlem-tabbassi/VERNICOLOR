@@ -33,6 +33,7 @@ function EditProfile() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [imageFile, setImageFile] = useState(null);
+  const [passwordStrength, setPasswordStrength] = useState("");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -108,25 +109,28 @@ function EditProfile() {
   }, []);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === "newPassword") {
+      const strength = checkPasswordStrength(value);
+      setPasswordStrength(strength);
+    }
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleCountryChange = (selectedOption) => {
     const selectedCountry = countries.find(
       (country) => country.value === selectedOption.value
     );
-    setSelectedCountry(selectedCountry); 
+    setSelectedCountry(selectedCountry);
     setFormData({ ...formData, country: selectedCountry.label });
   };
-  
+
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
-    setImageFile(selectedImage); 
+    setImageFile(selectedImage);
     setPreviewImage(URL.createObjectURL(selectedImage));
     setShowImageUpload(true);
   };
-  
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -201,6 +205,25 @@ function EditProfile() {
       mainContent.current.scrollTop = 0;
     }
   }, []);
+  const checkPasswordStrength = (password) => {
+    if (password.length < 6) {
+      return "Weak";
+    } else if (password.length < 10) {
+      return "Medium";
+    } else {
+      return "Strong";
+    }
+  };
+
+  const passwordStrengthColor = (strength) => {
+    if (strength === "Weak") {
+      return "red";
+    } else if (strength === "Medium") {
+      return "orange";
+    } else {
+      return "green";
+    }
+  };
 
   return (
     <>
@@ -327,6 +350,26 @@ function EditProfile() {
                                     placeholder="New Password"
                                     required
                                   />
+                                  {passwordStrength && (
+                                    <div
+                                      style={{
+                                        fontSize: "0.8em",
+                                        color:
+                                          passwordStrengthColor(
+                                            passwordStrength
+                                          ),
+                                      }}
+                                    >
+                                      <span
+                                        style={{
+                                          fontSize: "0.9em",
+                                          fontWeight: "bold",
+                                        }}
+                                      >
+                                        {passwordStrength}
+                                      </span>
+                                    </div>
+                                  )}
                                 </FormGroup>
                               </Col>
 
@@ -419,7 +462,7 @@ function EditProfile() {
                                   />
                                 </FormGroup>
                               </Col>
-                          
+
                               <Col sm="4">
                                 <FormGroup>
                                   <label htmlFor="input-newPassword">
@@ -435,6 +478,26 @@ function EditProfile() {
                                     placeholder="New Password"
                                     required
                                   />
+                                  {passwordStrength && (
+                                    <div
+                                      style={{
+                                        fontSize: "0.8em",
+                                        color:
+                                          passwordStrengthColor(
+                                            passwordStrength
+                                          ),
+                                      }}
+                                    >
+                                      <span
+                                        style={{
+                                          fontSize: "0.9em",
+                                          fontWeight: "bold",
+                                        }}
+                                      >
+                                        {passwordStrength}
+                                      </span>
+                                    </div>
+                                  )}
                                 </FormGroup>
                               </Col>
                               <Col sm="4">
@@ -644,6 +707,26 @@ function EditProfile() {
                                     placeholder="New Password"
                                     required
                                   />
+                                  {passwordStrength && (
+                                    <div
+                                      style={{
+                                        fontSize: "0.8em",
+                                        color:
+                                          passwordStrengthColor(
+                                            passwordStrength
+                                          ),
+                                      }}
+                                    >
+                                      <span
+                                        style={{
+                                          fontSize: "0.9em",
+                                          fontWeight: "bold",
+                                        }}
+                                      >
+                                        {passwordStrength}
+                                      </span>
+                                    </div>
+                                  )}
                                 </FormGroup>
                               </Col>
                               <Col sm="4">
