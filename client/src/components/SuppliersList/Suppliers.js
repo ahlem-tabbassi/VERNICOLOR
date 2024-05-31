@@ -16,7 +16,7 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import SupplierDetails from "./SupplierDetails";
-
+import Footer from "../../content/Footer/Footer";
 
 const Suppliers = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -205,10 +205,15 @@ const Suppliers = () => {
                 )}
               </tbody>
             </Table>
+       
             </div>
+          
           </Card>
+  
         </Col>
       </Row>
+  <Row  className="mt-6"></Row>
+      <Row className="mt-9"> <Col> <Footer/></Col> </Row>
       <SupplierDetails
         isOpen={isDetailsModalOpen}
         toggle={toggleDetailsModal}
@@ -233,6 +238,7 @@ const Suppliers = () => {
         </ModalFooter>
       </Modal>
     </Container>
+ 
     </div>
   );
 };

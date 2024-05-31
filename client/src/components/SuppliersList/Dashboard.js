@@ -19,6 +19,7 @@ import {
   Nav,
 } from "reactstrap";
 import { Bar } from "react-chartjs-2";
+import Footer from "../../content/Footer/Footer";
 const SupplierDashboard = () => {
   const { user } = useAuth();
   const [supplierId, setSupplierId] = useState("");
@@ -722,9 +723,11 @@ const SupplierDashboard = () => {
             </Card>
           </Col>
         </Row>
-        <Col>
-          <br></br>
-        </Col>
+      
+        
+          <Row  className="mt-6"></Row>
+      <Row className="mt-9"> <Col> <Footer/></Col> </Row>
+  
       </Container>
     </>
   );

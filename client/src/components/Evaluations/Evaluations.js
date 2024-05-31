@@ -8,11 +8,11 @@ import {
   Input,
   Table,
   Container,
-  Row,
+  Row,Col
 } from "reactstrap";
 import AddEvaluation from "./AddEvaluation";
 import axios from "axios";
-
+import Footer from "../../content/Footer/Footer";
 const Evaluations = () => {
   const [searchYear, setSearchYear] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
@@ -379,6 +379,7 @@ const Evaluations = () => {
           </Card>
         </div>
       </Row>
+  
       {userRole !== "supplier" && (
         <AddEvaluation
           isOpen={addModalOpen}
@@ -390,6 +391,8 @@ const Evaluations = () => {
       <div className="mt-4 text-right">
         <Legend />
       </div>
+      <Row  className="mt-9"></Row>
+      <Row className="mt-9"> <Col> <Footer/></Col> </Row>
     </Container>
     </div>
   );

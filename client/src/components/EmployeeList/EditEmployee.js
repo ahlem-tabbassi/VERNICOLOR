@@ -17,6 +17,7 @@ import {
 const EditEmployee=({ isOpen, toggle, employee, employeeId, updateEmployeeInList }) =>{
   const [showSuccess, setShowSuccess] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [showError, setShowError] = useState(false);
   const [editedFormData, setEditedFormData] = useState({
     firstName: "", 
     lastName: "", 
@@ -46,6 +47,10 @@ const EditEmployee=({ isOpen, toggle, employee, employeeId, updateEmployeeInList
 
   const handleSubmit = async () => {
     try {
+      if (!editedFormData.firstName || !editedFormData.lastName || !editedFormData.position || !editedFormData.phone) {
+        setShowError(true);
+        return;
+      }
       const token = localStorage.getItem("token");
   
       const response = await axios.put(
@@ -78,6 +83,11 @@ const EditEmployee=({ isOpen, toggle, employee, employeeId, updateEmployeeInList
         {showSuccess && (
           <Alert color="success" className="mb-3">
             Employee updated successfully!
+          </Alert>
+        )}
+         {showError && ( 
+          <Alert color="danger" className="mb-3">
+            All fields are required. Please fill in all fields.
           </Alert>
         )}
         <Row>

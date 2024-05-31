@@ -7,7 +7,7 @@ import {
   ModalFooter,
   ModalHeader,
   FormGroup,
-  Label,
+  Label,Alert
 } from "reactstrap";
 import axios from "axios";
 import EvaluationDetails from "../Evaluations/EvaluationDetails";
@@ -22,6 +22,7 @@ const SupplierDetails = ({
   updateSupplierInList,
 }) => {
   const [editing, setEditing] = useState(false);
+  const [showError, setShowError] = useState(false); 
   const [editedFormData, setEditedFormData] = useState({
     groupName: "",
     address: "",
@@ -187,6 +188,13 @@ const SupplierDetails = ({
 
   const handleSaveClick = async () => {
     try {
+      for (const key in editedFormData) {
+        if (!editedFormData[key] && key !== "country") {
+          setShowError(true); // Show error message
+          setTimeout(() => setShowError(false), 1000); // Set timeout to hide error message after 2 seconds
+          return;
+        }
+      }
       const token = localStorage.getItem("token");
 
       const updatedFormData = {
@@ -313,6 +321,11 @@ const SupplierDetails = ({
         )}
       </ModalHeader>
       <ModalBody style={{ display: "flex", flexDirection: "column" }}>
+      {showError && ( // Display error message if showError is true
+          <Alert color="danger" className="mb-3">
+            All fields are required. Please fill in all fields.
+          </Alert>
+        )}
         {showEvaluationDetails ? (
           <EvaluationDetails
             evaluations={evaluations}
@@ -409,21 +422,22 @@ const SupplierDetails = ({
                 )}
               </p>
               <p>
-                <strong>Country:</strong>{" "}
-                {!editing ? (
-                  editedFormData.country
-                ) : (
-                  <FormGroup>
-                    <Label htmlFor="input-country"></Label>
-                    <Select
-                      options={countries}
-                      value={selectedCountry}
-                      onChange={handleCountryChange}
-                      placeholder="Select Country"
-                    />
-                  </FormGroup>
-                )}
-              </p>
+  <strong>Country:</strong>{" "}
+  {editing ? (
+    <FormGroup>
+      <Label htmlFor="input-country"></Label>
+      <Select
+        options={countries}
+        value={selectedCountry}
+        onChange={handleCountryChange}
+        placeholder="Select Country"
+      />
+    </FormGroup>
+  ) : (
+    supplier?.country // Render the country information from supplier data
+  )}
+</p>
+
             </div>
             <div style={{ flex: 1 }}>
               {" "}

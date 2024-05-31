@@ -21,6 +21,7 @@ import {
 } from "reactstrap";
 import useAuth from "../../hooks/useAuth";
 import AddProtocol from "./AddProtocol";
+import Footer from "../../content/Footer/Footer";
 const Protocol = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [suppliers, setSuppliers] = useState([]);
@@ -352,6 +353,8 @@ const Protocol = () => {
             <Card></Card>
           </Col>
         </Row>
+        <Row  className="mt-6"></Row>
+      <Row className="mt-9"> <Col> <Footer/></Col> </Row>
         <AddProtocol
           isOpen={addModalOpen}
           toggle={toggleAddModal}

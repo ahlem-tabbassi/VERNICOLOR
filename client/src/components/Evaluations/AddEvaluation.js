@@ -37,7 +37,8 @@ const AddEvaluation = ({ isOpen, toggle, updateEvaluationsList }) => {
     Score: 0,
     createdBy: user.id,
   });
-
+  
+  const [showSupplierError, setShowSupplierError] = useState(false);
   const [suppliers, setSuppliers] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -155,9 +156,16 @@ const AddEvaluation = ({ isOpen, toggle, updateEvaluationsList }) => {
         });
         setTimeout(() => setShowSuccess(false), 3000);
       } else if (response.status === 400) {
-      
-        setShowError(true);
+        const responseData = await response.json();
+        if (responseData.message.includes('previous month')) {
+          setShowError(true);
+        } else if (responseData.message.includes('current month')) {
+          setShowSupplierError(true);
+        } else {
+          console.error("Failed to save evaluation:", responseData.message);
+        }
         setTimeout(() => setShowError(false), 3000);
+        setTimeout(() => setShowSupplierError(false), 3000);
       } else {
         console.error("Failed to save evaluation");
       }
@@ -166,6 +174,14 @@ const AddEvaluation = ({ isOpen, toggle, updateEvaluationsList }) => {
     } finally {
       setLoading(false);
     }
+  };
+  
+  const isValidDate = (current) => {
+    if (!current || !current._d) return false; // Handle null value or invalid date
+    const currentDate = new Date();
+    const currentMonth = current._d.getMonth() + 1; // Month is zero-based, so we add 1
+    const currentYear = current._d.getFullYear();
+    return currentMonth <= currentDate.getMonth() + 1 && currentYear === currentDate.getFullYear();
   };
   
   
@@ -188,7 +204,13 @@ const AddEvaluation = ({ isOpen, toggle, updateEvaluationsList }) => {
                     <Alert color="danger" className="mb-3">
                       Evaluation for the previous month is missing. Please add the evaluation for the previous month before adding the evaluation for the current month.
                     </Alert>
-                  )}
+                 )}
+                 {showSupplierError && (
+                 <Alert color="danger" className="mb-3">
+                 An evaluation for the current month already exists for this supplier.
+                 </Alert>
+                 )}
+                  
                   <Row>
                     <Col md="6">
                       <FormGroup>
@@ -217,6 +239,7 @@ const AddEvaluation = ({ isOpen, toggle, updateEvaluationsList }) => {
                               className: "form-control",
                             }}
                             timeFormat={false}
+                            isValidDate={isValidDate}
                             onChange={handleDateChange}
                           />
                         </InputGroup>

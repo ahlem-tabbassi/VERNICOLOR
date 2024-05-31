@@ -28,6 +28,8 @@ function EditProfile() {
   const [image, setImage] = useState(null);
   const [showImageUpload, setShowImageUpload] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const mainContent = useRef(null);
   const inputRef = useRef(null);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -134,13 +136,14 @@ function EditProfile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setErrorMessage("");
     if (formData.newPassword !== formData.confirmPassword) {
       alert("Passwords do not match");
       return;
     }
 
     try {
+      setLoading(true);
       const token = localStorage.getItem("token");
 
       const formDataWithImage = new FormData();
@@ -181,14 +184,16 @@ function EditProfile() {
               navigate("/dashboard");
               break;
           }
-        }, 1000);
+        }, 500);
       } else {
-        console.error("Error updating profile:", response.data.message);
-        alert("An error occurred. Please try again.");
+        throw new Error(response.data.message);
       }
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert("An error occurred. Please try again.");
+      setErrorMessage("An error occurred. Please try again.");
+      setTimeout(() =>   setErrorMessage(false), 3000);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -258,6 +263,11 @@ function EditProfile() {
                           Profile updated successfully!
                         </Alert>
                       )}
+                       {errorMessage && (
+                 <Alert color="danger" className="mb-3">
+               An error occurred. Please try again.
+                 </Alert>
+                 )}
                       <div className="text-center">
                         <h6 className="heading-small text-muted mb-4">
                           Please fill the required fields
@@ -826,9 +836,10 @@ function EditProfile() {
                         </Row>
                       </div>
                       <hr className="my-4" />
-                      <Button color="primary" type="submit">
-                        Save changes
+                      <Button color="primary" type="submit" disabled={loading}>
+                      {loading ? 'Saving changes...' :'Save changes'}
                       </Button>
+                   
                     </>
                   </Form>
                 </CardBody>

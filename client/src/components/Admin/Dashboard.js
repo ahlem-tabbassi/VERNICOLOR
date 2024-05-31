@@ -3,6 +3,7 @@ import { Bar, Doughnut } from "react-chartjs-2";
 import { chartOptions, parseOptions } from "../../variables/charts";
 import axios from "axios";
 import { differenceInDays } from "date-fns";
+import Footer from "../../content/Footer/Footer";
 import {
   Card,
   CardHeader,
@@ -765,7 +766,10 @@ const AdminDashboard = (props) => {
             </Card>
           </Col>
           <Col></Col>
+
         </Row>
+        <Row className="mt-6"> <Col> <Footer/></Col> </Row>
+  
       </Container>
     </>
   );

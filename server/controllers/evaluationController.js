@@ -48,7 +48,17 @@ exports. createEvaluation = async (req, res) => {
         return res.status(400).json({ message: 'An evaluation for the previous month is required before adding a new evaluation for the current month' });
       }
     }
+    const currentMonthStart = moment(parsedEvaluationDate).startOf('month').toDate();
+    const currentMonthEnd = moment(parsedEvaluationDate).endOf('month').toDate();
 
+    const existingEvaluation = await Evaluation.findOne({
+      supplierId: supplier._id,
+      evaluationDate: { $gte: currentMonthStart, $lte: currentMonthEnd }
+    });
+
+    if (existingEvaluation) {
+      return res.status(400).json({ message: 'An evaluation for the current month already exists for this supplier' });
+    }
   
     const evaluation = new Evaluation({
       SupplierName,

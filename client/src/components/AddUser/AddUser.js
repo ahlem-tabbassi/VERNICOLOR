@@ -13,7 +13,7 @@ import {
 } from "reactstrap";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
-
+import Footer from "../../content/Footer/Footer";
 const AddUser = () => {
   const { user } = useAuth();
   const [role, setUserRole] = useState("supplier");
@@ -90,63 +90,72 @@ const AddUser = () => {
 
   return (
     <div style={{ backgroundColor: "#FFFAFA", minHeight: "86vh" }}>
-  <Container fluid>
-      <Row className="justify-content-center">
-      <Col md="7" className="mt-7 ml-9"> 
-          <Card className="shadow">
-            <CardBody>
-              <h2 className="text-center mb- mt-2">Add User</h2>
-              <Form onSubmit={handleFormSubmit}>
-                <FormGroup>
-                  <Label for="email">Email:</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Enter Email"
-                    value={email}
-                    onChange={handleEmailChange}
-                    required
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="role">Select User Type:</Label>
-                  <Input
-                    id="role"
-                    type="select"
-                    value={role}
-                    onChange={(e) => setUserRole(e.target.value)}
-                    disabled={user.role === "employee"}
-                  >
-                    {user.role === "admin" ? (
-                      <>
-                        <option value="employee">Employee</option>
+      <Container fluid>
+        <Row className="justify-content-center">
+          <Col md="7" className="mt-7 ml-9">
+            <Card className="shadow">
+              <CardBody>
+                <h2 className="text-center mb- mt-2">Add User</h2>
+                <Form onSubmit={handleFormSubmit}>
+                  <FormGroup>
+                    <Label for="email">Email:</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Enter Email"
+                      value={email}
+                      onChange={handleEmailChange}
+                      required
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="role">Select User Type:</Label>
+                    <Input
+                      id="role"
+                      type="select"
+                      value={role}
+                      onChange={(e) => setUserRole(e.target.value)}
+                      disabled={user.role === "employee"}
+                    >
+                      {user.role === "admin" ? (
+                        <>
+                          <option value="employee">Employee</option>
+                          <option value="supplier">Supplier</option>
+                        </>
+                      ) : (
                         <option value="supplier">Supplier</option>
-                      </>
-                    ) : (
-                      <option value="supplier">Supplier</option>
-                    )}
-                  </Input>
-                </FormGroup>
+                      )}
+                    </Input>
+                  </FormGroup>
 
-                <Button
-                  type="submit"
-                  color="primary"
-                  disabled={loading}
-                  className="d-block mx-auto"
-                >
-                  {loading ? "Sending..." : "Send Password"}
-                </Button>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    disabled={loading}
+                    className="d-block mx-auto"
+                  >
+                    {loading ? "Sending..." : "Send Password"}
+                  </Button>
 
-                {error && <p className="text-danger mt-3">{error}</p>}
-                {successMessage && (
-                  <p className="text-success mt-3">{successMessage}</p>
-                )}
-              </Form>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </Container></div>
+                  {error && <p className="text-danger mt-3">{error}</p>}
+                  {successMessage && (
+                    <p className="text-success mt-3">{successMessage}</p>
+                  )}
+                </Form>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+        <Row className="mt-6"></Row>
+        <Row className="mt-9">
+          {" "}
+          <Col>
+            {" "}
+            <Footer />
+          </Col>{" "}
+        </Row>
+      </Container>
+    </div>
   );
 };
 export default AddUser;

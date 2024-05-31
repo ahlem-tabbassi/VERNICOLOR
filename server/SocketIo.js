@@ -11,7 +11,7 @@ function initSocket(server) {
   });
 
   io.on("connection", (socket) => {
-    console.log("Connected to socket.io");
+    //console.log("Connected to socket.io");
 
     socket.on("setup", (userId) => {
       console.log("Received user ID:", userId);

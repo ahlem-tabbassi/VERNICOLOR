@@ -24,7 +24,7 @@ const preRegisterAdmin = async () => {
 
     const hashedPassword = await hashPassword('admin');
 
- 
+ //Add admin email and password
     const newAdmin = new User({
       username: 'admin_username',
       email: 'admin@example.com',

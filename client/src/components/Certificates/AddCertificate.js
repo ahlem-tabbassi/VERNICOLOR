@@ -29,6 +29,7 @@ const AddCertificate = ({ isOpen, toggle, updateCertificatesList  }) => {
     certificateFile: null,
   });
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState("");
   const [suppliers, setSuppliers] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [isSupplier, setIsSupplier] = useState(false);
@@ -120,6 +121,7 @@ const AddCertificate = ({ isOpen, toggle, updateCertificatesList  }) => {
       );
 
       setShowSuccess(true);
+      setShowError("");
       setFormData({
         ...formData, 
         ExpireDate: "",
@@ -136,6 +138,11 @@ const AddCertificate = ({ isOpen, toggle, updateCertificatesList  }) => {
       }, 3000);
     } catch (error) {
       console.error("Error:", error);
+      if (error.response && error.response.data && error.response.data.message) {
+        setShowError(error.response.data.message);
+      } else {
+        setShowError("An error occurred. Please try again.");
+      }
     }
   };
 
@@ -162,6 +169,11 @@ const AddCertificate = ({ isOpen, toggle, updateCertificatesList  }) => {
             {showSuccess && (
               <Alert color="success" className="mb-3">
                 Certificate added successfully!
+              </Alert>
+            )}
+            {showError && (
+              <Alert color="danger" className="mb-3">
+                {showError}
               </Alert>
             )}
             <Row>

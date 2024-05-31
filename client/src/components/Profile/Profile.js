@@ -16,6 +16,7 @@ import useAuth from "../../hooks/useAuth";
 import UserHeader from "../../content/Header/UserHeader";
 import axios from "axios";
 import Select from "react-select";
+import Footer from "../../content/Footer/Footer";
 const AdminProfile = () => {
   const { user } = useAuth();
   const [userData, setUserData] = useState({
@@ -580,6 +581,8 @@ const AdminProfile = () => {
             </Row>
           </Col>
         </Row>
+        <Row  className="mt-6"></Row>
+      <Row className="mt-9"> <Col> <Footer/></Col> </Row>
       </Container>
     </>
   );

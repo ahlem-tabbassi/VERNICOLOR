@@ -11,7 +11,6 @@ import Sidebar from "./content/Sidebar/Sidebar";
 import Header from "./content/Header/Navbar";
 import axios from "axios";
 
-
 const App = () => {
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState({ firstName: "" });
@@ -24,7 +23,6 @@ const App = () => {
 
   const fetchUserData = async () => {
     try {
-   
       if (!user.id) {
         console.error("User ID is undefined");
         return;
@@ -33,7 +31,7 @@ const App = () => {
       const response = await axios.get(
         `http://localhost:8000/profile/fetch/${user.id}`
       );
-      
+
       const { data } = response;
       setUserData(data);
     } catch (error) {
@@ -42,28 +40,31 @@ const App = () => {
   };
 
   return (
-    <Router>
-    <Layout>
-      <Header user={userData} />
-      <Sidebar
-        user={userData} 
-        logo={{
-          innerLink: "/",
-          imgSrc: require("./assets/img/brand/logo.png"),
-          imgAlt: "Logo",
-        }}
-      />
-    </Layout>
-    <Routes>
-      <Route path="/" element={<Login />} />
-      
-      {routes(user).map((route) => (
-        <Route key={route.path} path={route.path} element={route.element} />
-        
-      ))}
-    </Routes>
-  </Router>
+    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <Router>
+        <Layout>
+          <Header user={userData} />
+          <Sidebar
+            user={userData}
+            logo={{
+              innerLink: "/",
+              imgSrc: require("./assets/img/brand/logo.png"),
+              imgAlt: "Logo",
+            }}
+          />
   
+        </Layout>
+      
+        <Routes>
+          <Route path="/" element={<Login />} />
+
+          {routes(user).map((route) => (
+            <Route key={route.path} path={route.path} element={route.element} />
+          ))}
+        </Routes>
+      </Router>
+     
+    </div>
   );
 };
 

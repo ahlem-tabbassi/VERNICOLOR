@@ -1,11 +1,7 @@
-import React, { useState, useEffect,useRef } from "react";
-import { PowerBIEmbed } from "powerbi-client-react";
-import { models } from "powerbi-client";
-import * as powerbi from 'powerbi-client';
-import { get } from 'powerbi-client-react';
+import React, { useState, useEffect } from "react";
+import { PowerBIEmbed } from 'powerbi-client-react';
+import { models } from 'powerbi-client';
 
-
-import "./Dashboard.css";
 import axios from "axios";
 import {
   Card,
@@ -19,14 +15,15 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
+
 const Dashadmin = () => {
-  const [evaluations, setEvaluations] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [suppliers, setSuppliers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const reportRef = useRef(null);
-  const startYear = 2024;
-  const endYear = 3000;
+    const [evaluations, setEvaluations] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [suppliers, setSuppliers] = useState([]); 
+    const [loading, setLoading] = useState(true);
+
+    const startYear = 2024;
+    const endYear = 3000;
 
   const months = [
     "Jan",
@@ -42,6 +39,7 @@ const Dashadmin = () => {
     "Nov",
     "Dec",
   ];
+  
 
   const generateColumnHeaders = () => {
     const columnHeaders = [];
@@ -124,7 +122,7 @@ const Dashadmin = () => {
 
 
     return( 
-        <div><center>
+        <div><center><br/>
 <Container className="mt--9"  fluid style={{ backgroundColor: "#FFFAFA" }}>
     <Row className="mt-9">
         <Col  md={12} >
@@ -293,13 +291,15 @@ const Dashadmin = () => {
             </Card>
           </Col>
           </Row>
-        </Container>
-        <Button color="info" onClick={handleRefresh}>Refresh Report</Button>
-      </center>
-      <br />
-      <br />
+    
+    
+    </Container>
+    </center>
+    <br/><br/>
+    
     </div>
-  );
-};
+            )}
+
+
 
 export default Dashadmin;

@@ -20,6 +20,7 @@ import {
 const EditCertificate = ({ isOpen, toggle, certificate, certificateId, updateCertificatesList }) => {
   const [editing, setEditing] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false); 
+  const [showError, setShowError] = useState(false);
   const [editedFormData, setEditedFormData] = useState({
     SupplierName: "",
     CertificateName: "",
@@ -86,6 +87,13 @@ const EditCertificate = ({ isOpen, toggle, certificate, certificateId, updateCer
 
   const handleSubmit = async () => {
     try {
+      for (const key in editedFormData) {
+        if (!editedFormData[key] && key !== "certificateFile") {
+          setShowError(true); // Show error message
+          setTimeout(() => setShowError(false), 2000); // Set timeout to hide error message after 2 seconds
+          return;
+        }
+      }
       const token = localStorage.getItem('token'); 
       const formData = new FormData();
       formData.append("SupplierName", editedFormData.SupplierName);
@@ -126,6 +134,11 @@ const EditCertificate = ({ isOpen, toggle, certificate, certificateId, updateCer
         {showSuccess && (
           <Alert color="success" className="mb-3">
             Certificate updated successfully!
+          </Alert>
+        )}
+           {showError && ( 
+          <Alert color="danger" className="mb-3">
+            All fields are required. Please fill in all fields.
           </Alert>
         )}
         <Row>

@@ -18,6 +18,7 @@ import {
 
 const AddProtocol = ({ isOpen, toggle , updateProtocolsList}) => {
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(""); 
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     supplierName: "",
@@ -86,7 +87,7 @@ const AddProtocol = ({ isOpen, toggle , updateProtocolsList}) => {
       setProtocols([...protocols, response.data]);
   
       setShowSuccess(true);
-
+      setShowError("");
       setFormData({
         supplierName: currentUser.groupName,
         status: "is being validated",
@@ -102,8 +103,13 @@ const AddProtocol = ({ isOpen, toggle , updateProtocolsList}) => {
       }, 3000);
     } catch (error) {
       console.error("Error:", error);
+      if (error.response && error.response.data && error.response.data.message) {
+        setShowError(error.response.data.message);
+      } else {
+        setShowError("An error occurred. Please try again.");
+      }
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
   
@@ -118,6 +124,11 @@ const AddProtocol = ({ isOpen, toggle , updateProtocolsList}) => {
             {showSuccess && (
               <Alert color="success" className="mb-3">
                 Protocol added successfully!
+              </Alert>
+            )}
+              {showError && (
+              <Alert color="danger" className="mb-3">
+                {showError}
               </Alert>
             )}
             <Row>

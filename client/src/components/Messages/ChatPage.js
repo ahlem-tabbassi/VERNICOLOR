@@ -348,7 +348,7 @@ const ChatPage = ({ isOpen, onClose, onSelectChat }) => {
           },
         }}
       >
-        <Box bg="#E8E8E8" px={3} py={2} display="flex" alignItems="center">
+        <Box bg="#E8E8E8" px={3} py={2} display="flex" alignItems="center"  sx={{ width: '400px' }}>
           <Avatar
             mr={2}
             size="xs"
@@ -589,7 +589,7 @@ const ChatPage = ({ isOpen, onClose, onSelectChat }) => {
             open={drawerOpen}
             onClose={() => setDrawerOpen(false)}
           >
-            <Box sx={{ width: 300 }} role="presentation" onClick={onClose}>
+            <Box sx={{ width: 350 }} role="presentation" onClick={onClose}>
               <Typography variant="h6" align="center" mt={2} mb={1}>
                 Search Users
               </Typography>

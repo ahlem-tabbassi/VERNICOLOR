@@ -38,7 +38,10 @@ const protocolController = {
           if (!supplier) {
             return res.status(404).json({ message: "Supplier not found" });
           }
-  
+          const existingProtocol = await Protocol.findOne({ supplierId: supplier._id, protocolTitle });
+          if (existingProtocol) {
+            return res.status(400).json({ message: "This Protocol already exists" });
+          }
           if (userRole === "supplier") {
             const notificationMessage = `New protocol added by ${supplierName}`;
             //console.log( `Supplier added a protocol. Sending notification to admin and employee.`);

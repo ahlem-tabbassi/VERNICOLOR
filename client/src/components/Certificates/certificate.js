@@ -20,7 +20,7 @@ import {
 } from "reactstrap";
 import AddCertificate from "./AddCertificate";
 import EditCertificate from "./EditCertificate";
-
+import Footer from "../../content/Footer/Footer";
 const Certificates = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [certificates, setCertificates] = useState([]);
@@ -263,6 +263,8 @@ const Certificates = () => {
               </Card>
             </Col>
           </Row>
+          <Row  className="mt-6"></Row>
+      <Row className="mt-9"> <Col> <Footer/></Col> </Row>
           <AddCertificate isOpen={addModalOpen} toggle={toggleAddModal} updateCertificatesList={updateCertificatesList}/>
           <EditCertificate
             isOpen={editModalOpen}

@@ -42,55 +42,37 @@ const certificateController = {
             return res.status(404).json({ message: "Supplier not found" });
           }
 
-          let userRole = req.userRole;
+          // Check if the certificate already exists for this supplier
+          const existingCertificate = await Certificate.findOne({
+            supplierId: supplier._id,
+            CertificateName: CertificateName,
+          });
 
+          if (existingCertificate) {
+            return res.status(400).json({ message: "Certificate already exists" });
+          }
+
+          let userRole = req.userRole;
           let notificationMessage = "";
 
           if (userRole === "supplier") {
-            // If supplier adds a certificate, send notification to admin and employee
             notificationMessage = `New certificate added by ${SupplierName}`;
+            console.log(`Supplier added a certificate. Sending notification to admin and employee.`);
+            const adminAndEmployeeUsers = await User.find({ role: { $in: ["admin", "employee"] } });
+            const notificationData = { message: notificationMessage, type: "certificate", read: false };
+            await Promise.all(adminAndEmployeeUsers.map(async (user) => {
+              const adminAndEmployeeNotification = new Notification({ userId: user._id, ...notificationData });
+              await adminAndEmployeeNotification.save();
+            }));
 
-            console.log(
-              `Supplier added a certificate. Sending notification to admin and employee.`
-            );
-            const adminAndEmployeeUsers = await User.find({
-              role: { $in: ["admin", "employee"] },
-            });
-            const notificationData = {
-              message: notificationMessage,
-              type: "certificate",
-              read: false,
-            };
-            await Promise.all(
-              adminAndEmployeeUsers.map(async (user) => {
-                console.log(`Notification sent `);
-                const adminAndEmployeeNotification = new Notification({
-                  userId: user._id,
-                  ...notificationData,
-                });
-                await adminAndEmployeeNotification.save();
-              })
-            );
-  
-            // Send email notification to admin and employee
             const emailMessage = `A new certificate has been added by ${SupplierName}.`;
             await sendNotification(adminAndEmployeeUsers.map(user => user.email), 'New Certificate Added', emailMessage, 'certificate');
           } else {
             notificationMessage = `You have a new certificate: ${CertificateName}`;
-  
-            console.log(
-              `Admin or employee added a certificate. Sending notification to supplier: ${supplier.groupName}`
-            );
-            console.log(`supplier id: ${supplier._id}`);
-            const supplierNotification = new Notification({
-              userId: supplier._id,
-              message: notificationMessage,
-              type: "certificate",
-              read: false,
-            });
+            console.log(`Admin or employee added a certificate. Sending notification to supplier: ${supplier.groupName}`);
+            const supplierNotification = new Notification({ userId: supplier._id, message: notificationMessage, type: "certificate", read: false });
             await supplierNotification.save();
-  
-            // Send email notification to the supplier
+
             const emailMessage = `You have a new certificate: ${CertificateName}.`;
             await sendNotification(supplier.email, 'New Certificate Added', emailMessage, 'certificate');
           }
@@ -104,22 +86,10 @@ const certificateController = {
             CertificateName,
             CertificateFile: certificateFile,
           });
-     
+
           const savedCertificate = await newCertificate.save();
-
-          if (userRole === "admin" || userRole === "employee") {
-            userRole = userRole; 
-          } else {
-            userRole = "supplier"; 
-          }
-
-          const notificationData = {
-            userRole: userRole,
-            supplierId: savedCertificate.supplierId,
-          };
-          console.log("notif data", notificationData);
+          const notificationData = { userRole, supplierId: savedCertificate.supplierId };
           const io = getIo();
-
           io.emit("newCertificate", notificationData);
           res.status(201).json(savedCertificate);
         } catch (error) {
