@@ -204,8 +204,8 @@ const Employees = () => {
           </Card>
         </Col>
       </Row>
-      <Row  className="mt-6"></Row>
-      <Row className="mt-9"> <Col> <Footer/></Col> </Row>
+      <Row  className="mt-5"></Row>
+      <Row className="mt-4"> <Col> <Footer/></Col> </Row>
       <EditEmployee
         isOpen={editModalOpen}
         toggle={toggleEditModal}

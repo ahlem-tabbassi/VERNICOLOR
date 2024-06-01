@@ -692,6 +692,7 @@ const SupplierDashboard = () => {
                   <thead className="thead-light">
                     <tr>
                       <th scope="col">Certificate Name</th>
+                      <th scope="col">Certificate Number</th>
                       <th scope="col">Expiration</th>
                     </tr>
                   </thead>
@@ -699,6 +700,7 @@ const SupplierDashboard = () => {
                     {filteredCertificates.map((certificate) => (
                       <tr key={certificate._id}>
                         <td>{certificate.CertificateName}</td>
+                        <td>{certificate.CertificateNumber}</td>
                         <td>
                           <Progress
                             value={
@@ -725,8 +727,8 @@ const SupplierDashboard = () => {
         </Row>
       
         
-          <Row  className="mt-6"></Row>
-      <Row className="mt-9"> <Col> <Footer/></Col> </Row>
+          <Row  className="mt-3"></Row>
+      <Row className="mt-5"> <Col> <Footer/></Col> </Row>
   
       </Container>
     </>

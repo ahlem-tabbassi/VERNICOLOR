@@ -263,8 +263,8 @@ const Certificates = () => {
               </Card>
             </Col>
           </Row>
-          <Row  className="mt-6"></Row>
-      <Row className="mt-9"> <Col> <Footer/></Col> </Row>
+          <Row  className="mt-9"></Row>
+      <Row className="mt-7"> <Col> <Footer/></Col> </Row>
           <AddCertificate isOpen={addModalOpen} toggle={toggleAddModal} updateCertificatesList={updateCertificatesList}/>
           <EditCertificate
             isOpen={editModalOpen}

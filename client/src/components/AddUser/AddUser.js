@@ -146,7 +146,7 @@ const AddUser = () => {
             </Card>
           </Col>
         </Row>
-        <Row className="mt-6"></Row>
+        <Row className="mt-5"></Row>
         <Row className="mt-9">
           {" "}
           <Col>

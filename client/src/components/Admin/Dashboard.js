@@ -768,7 +768,7 @@ const AdminDashboard = (props) => {
           <Col></Col>
 
         </Row>
-        <Row className="mt-6"> <Col> <Footer/></Col> </Row>
+        <Row className="mt-2"> <Col> <Footer/></Col> </Row>
   
       </Container>
     </>
